@@ -1,0 +1,11 @@
+const router = require("express").Router();
+const { requireFeature } = require('../middleware/featureGate');
+const { protect, workspaceAccess } = require("../middleware/auth");
+const c = require("../controllers/quickReplyClientController");
+router.use(protect, workspaceAccess);
+router.use(requireFeature('quickReplies'));
+router.get("/", c.getAll);
+router.post("/", c.create);
+router.put("/:id", c.update);
+router.delete("/:id", c.remove);
+module.exports = router;

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="190" height="48" viewBox="0 0 190 48" fill="none">
+  <g fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 8h16l-1.5 10.5a2 2 0 0 1-2 1.5H7.5a2 2 0 0 1-2-1.5L4 8Zm4 0a4 4 0 1 1 8 0"/>
+  </g>
+  <text x="42" y="31" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700" fill="#64748b">ShopNova</text>
+</svg>

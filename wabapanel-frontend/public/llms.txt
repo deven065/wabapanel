@@ -1,0 +1,26 @@
+# WabaPanel
+
+> WabaPanel by KKHS Media is a complete WhatsApp Business API CRM & AI automation platform. It combines a shared team inbox (WhatsApp, Messenger, Instagram), an AI chatbot trainable on PDFs/Excel/websites, a drag-and-drop bot flow builder, broadcast & drip campaigns, keyword auto-replies, a Kanban sales pipeline CRM, AI voice calling, WhatsApp catalog/store, payment links and white-label reselling.
+
+## Key facts
+- Product: WhatsApp Business API SaaS panel (web application)
+- Company: KKHS Media (https://kkhsmedia.com)
+- Website: https://wabapanel.com
+- Pricing: Free ₹0 · Starter ₹999/mo · Growth ₹1,499/mo · Business ₹1,999/mo (yearly -20%)
+- Supports: official WhatsApp Cloud API and QR-based WhatsApp connections
+- AI: chatbot trained on your own data, AI follow-ups, AI voice calling assistant
+- Also sold as a self-hosted NodeJS product with full source code and lifetime license
+
+## Pages
+- [Features](https://wabapanel.com/features): full feature list
+- [Pricing](https://wabapanel.com/#pricing): plans and pricing
+- [Blog](https://wabapanel.com/blog): guides and updates
+- [Knowledge Base](https://wabapanel.com/knowledge-base): help articles
+- [Contact](https://wabapanel.com/contact): sales and support
+- [Sign up](https://wabapanel.com/auth/register): free account
+
+## FAQ
+- What is WabaPanel? A WhatsApp Business API CRM and AI automation platform for sales, support and marketing on WhatsApp.
+- Is there a free plan? Yes, ₹0 forever plan; paid plans from ₹999/month.
+- Can the AI be trained on my data? Yes — PDFs, Excel files and website content.
+- Does it support broadcasts and templates? Yes — template messages, broadcasts, drip campaigns and click-to-WhatsApp ads.

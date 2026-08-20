@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const { protect, workspaceAccess } = require("../middleware/auth");
+const c = require("../controllers/badgeController");
+router.use(protect, workspaceAccess);
+router.get("/", c.getAll);
+router.post("/", c.create);
+router.put("/:id", c.update);
+router.delete("/:id", c.remove);
+router.post("/:id/run", c.run);
+module.exports = router;

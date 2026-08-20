@@ -1,0 +1,14 @@
+const router = require("express").Router();
+const { requireFeature } = require('../middleware/featureGate');
+const { protect, workspaceAccess } = require("../middleware/auth");
+const c = require("../controllers/ctwaAdController");
+router.use(protect, workspaceAccess);
+router.use(requireFeature('ctwaAds'));
+router.get("/", c.getAll);
+router.post("/", c.create);
+router.post("/sync", c.syncFromMeta);
+router.get("/ad-accounts", c.getAdAccounts);
+router.post("/:id/publish", c.publishToMeta);
+router.put("/:id", c.update);
+router.delete("/:id", c.remove);
+module.exports = router;
