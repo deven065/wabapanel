@@ -2464,10 +2464,21 @@ function ChatPageInner() {
                 </button>
               </div>
               {scheduleMode && (
-                <div className="flex items-center gap-1 shrink-0">
-                  <input type="datetime-local" value={scheduleTime} onChange={e => setScheduleTime(e.target.value)} className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-                  <button onClick={handleScheduleSend} disabled={!scheduleTime || !messageText.trim()} className="p-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50"><Calendar className="w-4 h-4" /></button>
-                  <button onClick={() => setScheduleMode(false)} className="p-2 text-gray-400 hover:text-gray-600"><X className="w-4 h-4" /></button>
+                <div className="flex items-center gap-1 min-w-0 flex-1">
+                  <input
+                    type="datetime-local"
+                    value={scheduleTime}
+                    onChange={(e) => setScheduleTime(e.target.value)}
+                    className="min-w-0 flex-1 text-xs border rounded-lg px-2 py-2"
+                  />
+
+                  <button
+                    onClick={() => setScheduleMode(false)}
+                    className="shrink-0 p-2 text-gray-500 hover:text-gray-700"
+                    aria-label="Cancel schedule"
+                  >
+                    ✕
+                  </button>
                 </div>
               )}
               <button
