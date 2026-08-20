@@ -2435,7 +2435,7 @@ function ChatPageInner() {
               </div>
               <div className="relative order-2 sm:order-none">
                 {showEmoji && (
-                  <div className="absolute bottom-12 right-0 z-30 bg-white border border-gray-200 rounded-xl shadow-lg p-2 w-64 max-h-48 overflow-y-auto">
+                  <div className="fixed bottom-32 left-3 right-3 z-50 max-h-48 overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 shadow-lg sm:absolute sm:bottom-12 sm:left-auto sm:right-0 sm:z-30 sm:w-64">
                     <div className="grid grid-cols-8 gap-0.5">
                       {['😀','😁','😂','🤣','😅','😊','😇','😉','😍','😘','😋','😜','🤗','🤔','😎','🤩','🥳','😢','😭','😡','😱','😴','🤒','🤕','👍','👎','👌','✌️','🤝','🙏','💪','👏','🙌','❤️','💕','💔','🔥','⭐','✨','🎉','🎊','🏆','🎁','💰','💸','✅','❌','⚠️','📌','📞','📧','🗓️','⏰','🚀','💡','📊','🛒','🌟','😌','🥰','🙃','🙄','😬','🤑'].map(e => (
                         <button key={e} onClick={() => { setMessageText(t => t + e); }} className="text-xl p-1 hover:bg-gray-100 rounded">{e}</button>
