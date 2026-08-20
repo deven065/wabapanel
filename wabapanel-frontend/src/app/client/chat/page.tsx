@@ -939,6 +939,10 @@ function ChatPageInner() {
 
   const handleSend = async () => {
     if (sendLockRef.current || !messageText.trim() || !selectedConv) return;
+    if (scheduleMode || scheduleTime) {
+      await handleScheduleSend();
+      return;
+    }
     sendLockRef.current = true;
     setSending(true);
     emitTyping(selectedConv._id, false);
@@ -1510,14 +1514,29 @@ function ChatPageInner() {
   };
 
   const handleScheduleSend = async () => {
-    if (!messageText.trim() || !selectedConv || !scheduleTime) return;
+    if (sendLockRef.current || !messageText.trim() || !selectedConv) return;
+    if (!scheduleTime) {
+      toast.error('Choose a schedule date and time');
+      return;
+    }
+
+    const scheduledAt = new Date(scheduleTime);
+    if (Number.isNaN(scheduledAt.getTime())) {
+      toast.error('Choose a valid schedule date and time');
+      return;
+    }
+
+    sendLockRef.current = true;
+    setSending(true);
     try {
-      await api.post('/conversations/' + selectedConv._id + '/schedule', { text: messageText, scheduledAt: new Date(scheduleTime).toISOString() });
+      await api.post('/conversations/' + selectedConv._id + '/schedule', { text: messageText, scheduledAt: scheduledAt.toISOString() });
       toast.success('Message scheduled');
       setMessageText('');
       setScheduleMode(false);
       setScheduleTime('');
     } catch { toast.error('Schedule failed'); }
+    setSending(false);
+    sendLockRef.current = false;
   };
 
   const handleSendProduct = async (product: {_id: string; name: string; price: number; description?: string}) => {
@@ -2464,31 +2483,87 @@ function ChatPageInner() {
                 </button>
               </div>
               {scheduleMode && (
-                <div className="flex items-center gap-1 min-w-0 flex-1">
-                  <input
-                    type="datetime-local"
-                    value={scheduleTime}
-                    onChange={(e) => setScheduleTime(e.target.value)}
-                    className="min-w-0 flex-1 text-xs border rounded-lg px-2 py-2"
-                  />
+                <div className="absolute bottom-14 left-2 right-2 z-50 rounded-xl border bg-white p-3 shadow-lg sm:left-auto sm:right-2 sm:w-72">
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">
+                      Schedule message
+                    </span>
 
-                  <button
-                    onClick={() => setScheduleMode(false)}
-                    className="shrink-0 p-2 text-gray-500 hover:text-gray-700"
-                    aria-label="Cancel schedule"
-                  >
-                    ✕
-                  </button>
+                    <button
+                      onClick={() => setScheduleMode(false)}
+                      className="rounded-md p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                      aria-label="Cancel schedule"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-gray-600">
+                        Date
+                      </label>
+
+                      <input
+                        type="date"
+                        value={scheduleTime ? scheduleTime.split("T")[0] : ""}
+                        onChange={(e) => {
+                          const currentTime =
+                            scheduleTime?.split("T")[1] || "09:00";
+
+                          setScheduleTime(
+                            e.target.value
+                              ? `${e.target.value}T${currentTime}`
+                              : ""
+                          );
+                        }}
+                        className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-gray-600">
+                        Time
+                      </label>
+
+                      <input
+                        type="time"
+                        value={scheduleTime ? scheduleTime.split("T")[1] : ""}
+                        onChange={(e) => {
+                          const currentDate =
+                            scheduleTime?.split("T")[0] || "";
+
+                          setScheduleTime(
+                            currentDate
+                              ? `${currentDate}T${e.target.value}`
+                              : ""
+                          );
+                        }}
+                        className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-blue-500"
+                      />
+                    </div>
+
+                    <button
+                      onClick={() => setScheduleMode(false)}
+                      disabled={!scheduleTime}
+                      className="w-full rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               )}
+
               <button
                 onClick={() => setScheduleMode(!scheduleMode)}
-                className={`block p-2 rounded-lg hover:bg-gray-50 shrink-0 ${
-                  scheduleMode ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'
+                className={`block shrink-0 rounded-lg p-2 hover:bg-gray-50 ${
+                  scheduleMode
+                    ? "text-blue-600"
+                    : "text-gray-400 hover:text-gray-600"
                 }`}
                 title="Schedule message"
               >
-                <Calendar className="w-5 h-5" />
+                <Calendar className="h-5 w-5" />
               </button>
               {recording ? (
                 <div className="flex items-center gap-2 px-1 sm:px-2 shrink-0">
