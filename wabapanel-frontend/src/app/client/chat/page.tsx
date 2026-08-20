@@ -2464,13 +2464,19 @@ function ChatPageInner() {
                 </button>
               </div>
               {scheduleMode && (
-                <div className="hidden sm:flex items-center gap-1 shrink-0">
+                <div className="flex items-center gap-1 shrink-0">
                   <input type="datetime-local" value={scheduleTime} onChange={e => setScheduleTime(e.target.value)} className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500" />
                   <button onClick={handleScheduleSend} disabled={!scheduleTime || !messageText.trim()} className="p-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50"><Calendar className="w-4 h-4" /></button>
                   <button onClick={() => setScheduleMode(false)} className="p-2 text-gray-400 hover:text-gray-600"><X className="w-4 h-4" /></button>
                 </div>
               )}
-              <button onClick={() => setScheduleMode(!scheduleMode)} className={`hidden sm:block p-2 rounded-lg hover:bg-gray-50 shrink-0 ${scheduleMode ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'}`} title="Schedule message">
+              <button
+                onClick={() => setScheduleMode(!scheduleMode)}
+                className={`block p-2 rounded-lg hover:bg-gray-50 shrink-0 ${
+                  scheduleMode ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'
+                }`}
+                title="Schedule message"
+              >
                 <Calendar className="w-5 h-5" />
               </button>
               {recording ? (
