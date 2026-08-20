@@ -2347,7 +2347,7 @@ function ChatPageInner() {
                 </button>
               </div>
             ) : (
-            <div className="flex items-end gap-1.5 sm:gap-2">
+            <div className="relative flex flex-wrap items-end gap-1.5 sm:flex-nowrap sm:gap-2">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -2357,7 +2357,7 @@ function ChatPageInner() {
               />
 
               {/* Attachment button with popup */}
-              <div className="relative" ref={attachMenuRef}>
+              <div className="relative order-2 sm:order-none" ref={attachMenuRef}>
                 <button
                   onClick={() => setShowAttachMenu(!showAttachMenu)}
                   disabled={uploading}
@@ -2418,7 +2418,7 @@ function ChatPageInner() {
                 )}
               </div>
 
-              <div className="flex-1 min-w-0 relative">
+              <div className="order-1 min-w-0 relative w-full basis-full sm:order-none sm:basis-auto sm:flex-1">
                 <textarea
                   value={messageText}
                   onChange={(e) => {
@@ -2433,7 +2433,7 @@ function ChatPageInner() {
                   className="w-full min-h-[40px] max-h-28 px-3 sm:px-4 py-2.5 rounded-2xl border border-gray-200 bg-gray-50 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
-              <div className="relative">
+              <div className="relative order-2 sm:order-none">
                 {showEmoji && (
                   <div className="absolute bottom-12 right-0 z-30 bg-white border border-gray-200 rounded-xl shadow-lg p-2 w-64 max-h-48 overflow-y-auto">
                     <div className="grid grid-cols-8 gap-0.5">
@@ -2447,7 +2447,7 @@ function ChatPageInner() {
                   <Smile className="w-5 h-5" />
                 </button>
               </div>
-              <div className="relative hidden sm:block">
+              <div className="relative order-2 hidden sm:order-none sm:block">
                 {showStickers && (
                   <div className="absolute bottom-12 right-0 z-30 bg-white border border-gray-200 rounded-xl shadow-lg p-2 w-72 max-h-72 overflow-y-auto">
                     <div className="flex items-center justify-between px-1 pb-2 mb-1 border-b border-gray-100">
@@ -2556,7 +2556,7 @@ function ChatPageInner() {
 
               <button
                 onClick={() => setScheduleMode(!scheduleMode)}
-                className={`block shrink-0 rounded-lg p-2 hover:bg-gray-50 ${
+                className={`order-2 block shrink-0 rounded-lg p-2 hover:bg-gray-50 sm:order-none ${
                   scheduleMode
                     ? "text-blue-600"
                     : "text-gray-400 hover:text-gray-600"
@@ -2566,7 +2566,7 @@ function ChatPageInner() {
                 <Calendar className="h-5 w-5" />
               </button>
               {recording ? (
-                <div className="flex items-center gap-2 px-1 sm:px-2 shrink-0">
+                <div className="order-2 flex items-center gap-2 px-1 sm:order-none sm:px-2 shrink-0">
                   <span className="flex items-center gap-1.5 text-sm text-red-600 font-medium">
                     <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
                     {Math.floor(recordSecs / 60)}:{String(recordSecs % 60).padStart(2, '0')}
@@ -2579,14 +2579,14 @@ function ChatPageInner() {
                   </button>
                 </div>
               ) : (
-                  <button onClick={startRecording} disabled={uploading} className="p-1.5 sm:p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 shrink-0" title="Record voice message">
+                  <button onClick={startRecording} disabled={uploading} className="order-2 p-1.5 sm:order-none sm:p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 disabled:opacity-50 shrink-0" title="Record voice message">
                   <Mic className="w-5 h-5" />
                 </button>
               )}
               <button
                 onClick={handleSend}
                 disabled={!messageText.trim() || sending}
-                className="p-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                className="order-2 ml-auto p-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 sm:order-none sm:ml-0"
               >
                 <Send className="w-5 h-5" />
               </button>
