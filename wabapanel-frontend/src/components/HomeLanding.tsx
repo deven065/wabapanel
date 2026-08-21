@@ -89,13 +89,37 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
     retailmax: '/assets/logos/retailmax.svg',
     shopnova: '/assets/logos/shopnova.svg',
   };
-  const renderTrustedLogo = (b: string, key: string) => (
-    typeof b === 'string' && (b.startsWith('/') || b.startsWith('http') || trustedLogoAssets[b.trim().toLowerCase()]) ? (
-      <img key={key} src={trustedLogoAssets[b.trim().toLowerCase()] || b} alt={`${b} logo`} className="h-8 md:h-9 w-auto opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+  const trustedLogoNames: Record<string, string> = {
+    cloudsy: 'Cloudsy',
+    edulearn: 'EduLearn',
+    estatepro: 'EstatePro',
+    finserve: 'FinServe',
+    healthplus: 'HealthPlus',
+    logiflow: 'LogiFlow',
+    retailmax: 'RetailMax',
+    shopnova: 'ShopNova',
+  };
+  const getTrustedLogoKey = (value: string) => value
+    .trim()
+    .toLowerCase()
+    .replace(/^.*\//, '')
+    .replace(/\.svg$/, '');
+  const renderTrustedLogo = (b: string, key: string) => {
+    const logoKey = getTrustedLogoKey(b);
+    const logoSource = trustedLogoAssets[logoKey] || (b.startsWith('/') || b.startsWith('http') ? b : '');
+    const logoName = trustedLogoNames[logoKey] || b;
+
+    return logoSource ? (
+      <div key={key} className="flex h-12 items-center gap-2.5 rounded-lg border border-gray-100 bg-gray-50/80 px-4 text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors hover:border-violet-100 hover:bg-violet-50 hover:text-violet-700">
+        <span className="flex h-6 w-6 shrink-0 items-center overflow-hidden" aria-hidden="true">
+          <img src={logoSource} alt="" className="h-6 w-auto max-w-none" />
+        </span>
+        <span>{logoName}</span>
+      </div>
     ) : (
-      <div key={key} className="px-6 py-3 bg-gray-100/80 rounded-xl text-sm font-bold text-gray-500 whitespace-nowrap hover:text-violet-600 hover:bg-violet-50 transition-colors">{b}</div>
-    )
-  );
+      <div key={key} className="flex h-12 items-center rounded-lg border border-gray-100 bg-gray-50/80 px-4 text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors hover:border-violet-100 hover:bg-violet-50 hover:text-violet-700">{b}</div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#faf9fe] text-gray-900 overflow-x-hidden">
