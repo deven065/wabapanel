@@ -99,15 +99,20 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
     retailmax: 'RetailMax',
     shopnova: 'ShopNova',
   };
+  const trustedIntegrationNames = [
+    'Cashfree', 'Payments', 'Google Calendar', 'Google Sheets', 'Shopify', 'WooCommerce',
+    'Google Forms', 'LinkedIn Lead Gen', 'X (Twitter) Ads', '99acres', 'MagicBricks',
+    'Housing.com', 'OLX', 'TagMango', 'LeadSquared', 'GoHighLevel',
+  ];
   const getTrustedLogoKey = (value: string) => value
     .trim()
     .toLowerCase()
     .replace(/^.*\//, '')
     .replace(/\.svg$/, '');
-  const renderTrustedLogo = (b: string, key: string) => {
+  const renderTrustedLogo = (b: string, key: string, fallbackName?: string) => {
     const logoKey = getTrustedLogoKey(b);
     const logoSource = trustedLogoAssets[logoKey] || (b.startsWith('/') || b.startsWith('http') ? b : '');
-    const logoName = trustedLogoNames[logoKey] || b;
+    const logoName = trustedLogoNames[logoKey] || fallbackName || b;
 
     return logoSource ? (
       <div key={key} className="flex h-12 items-center gap-2.5 rounded-lg border border-gray-100 bg-gray-50/80 px-4 text-sm font-semibold text-gray-500 whitespace-nowrap transition-colors hover:border-violet-100 hover:bg-violet-50 hover:text-violet-700">
@@ -375,7 +380,11 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
                 className="lp-marquee flex w-max items-center gap-10 md:gap-16"
                 style={rowIndex === 0 ? { animationDirection: 'reverse' } : undefined}
               >
-                {[...row, ...row].map((b: string, i: number) => renderTrustedLogo(b, `${rowIndex}-${i}`))}
+                {[...row, ...row].map((b: string, i: number) => renderTrustedLogo(
+                  b,
+                  `${rowIndex}-${i}`,
+                  trustedIntegrationNames[(rowIndex * trustedBySplitIndex) + (i % row.length)],
+                ))}
               </div>
             ))}
           </div>
