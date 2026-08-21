@@ -76,6 +76,26 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
 
   const featureIcons = [<MessageSquare key="0" className="w-6 h-6" />, <Send key="1" className="w-6 h-6" />, <Bot key="2" className="w-6 h-6" />, <Zap key="3" className="w-6 h-6" />, <Users key="4" className="w-6 h-6" />, <BarChart3 key="5" className="w-6 h-6" />, <Phone key="6" className="w-6 h-6" />, <MousePointerClick key="7" className="w-6 h-6" />];
   const features = (h.features.items || []).map((f: any, i: number) => ({ ...f, icon: featureIcons[i % featureIcons.length] }));
+  const trustedByLogos = Array.isArray(h.trustedByLogos) ? h.trustedByLogos : [];
+  const trustedBySplitIndex = Math.ceil(trustedByLogos.length / 2);
+  const trustedByRows = [trustedByLogos.slice(0, trustedBySplitIndex), trustedByLogos.slice(trustedBySplitIndex)].filter(row => row.length > 0);
+  const trustedLogoAssets: Record<string, string> = {
+    cloudsy: '/assets/logos/cloudsy.svg',
+    edulearn: '/assets/logos/edulearn.svg',
+    estatepro: '/assets/logos/estatepro.svg',
+    finserve: '/assets/logos/finserve.svg',
+    healthplus: '/assets/logos/healthplus.svg',
+    logiflow: '/assets/logos/logiflow.svg',
+    retailmax: '/assets/logos/retailmax.svg',
+    shopnova: '/assets/logos/shopnova.svg',
+  };
+  const renderTrustedLogo = (b: string, key: string) => (
+    typeof b === 'string' && (b.startsWith('/') || b.startsWith('http') || trustedLogoAssets[b.trim().toLowerCase()]) ? (
+      <img key={key} src={trustedLogoAssets[b.trim().toLowerCase()] || b} alt={`${b} logo`} className="h-8 md:h-9 w-auto opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+    ) : (
+      <div key={key} className="px-6 py-3 bg-gray-100/80 rounded-xl text-sm font-bold text-gray-500 whitespace-nowrap hover:text-violet-600 hover:bg-violet-50 transition-colors">{b}</div>
+    )
+  );
 
   return (
     <div className="min-h-screen bg-[#faf9fe] text-gray-900 overflow-x-hidden">
@@ -324,16 +344,16 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
       <section className="py-14 border-y border-gray-200/60 bg-white/50 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-sm font-medium text-gray-400 tracking-wide uppercase mb-8">{h.trustedByTitle}</p>
-          <div className="relative [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-            <div className="lp-marquee flex w-max items-center gap-10 md:gap-16">
-              {[...(h.trustedByLogos || []), ...(h.trustedByLogos || [])].map((b: string, i: number) => (
-                typeof b === 'string' && (b.startsWith('/') || b.startsWith('http')) ? (
-                  <img key={i} src={b} alt="Trusted company logo" className="h-8 md:h-9 w-auto opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
-                ) : (
-                  <div key={i} className="px-6 py-3 bg-gray-100/80 rounded-xl text-sm font-bold text-gray-500 whitespace-nowrap hover:text-violet-600 hover:bg-violet-50 transition-colors">{b}</div>
-                )
-              ))}
-            </div>
+          <div className="relative space-y-6 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
+            {trustedByRows.map((row, rowIndex) => (
+              <div
+                key={rowIndex}
+                className="lp-marquee flex w-max items-center gap-10 md:gap-16"
+                style={rowIndex === 0 ? { animationDirection: 'reverse' } : undefined}
+              >
+                {[...row, ...row].map((b: string, i: number) => renderTrustedLogo(b, `${rowIndex}-${i}`))}
+              </div>
+            ))}
           </div>
         </div>
       </section>
