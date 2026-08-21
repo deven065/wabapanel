@@ -100,9 +100,14 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
     shopnova: 'ShopNova',
   };
   const trustedIntegrationNames = [
-    'Cashfree', 'Payments', 'Google Calendar', 'Google Sheets', 'Shopify', 'WooCommerce',
-    'Google Forms', 'LinkedIn Lead Gen', 'X (Twitter) Ads', '99acres', 'MagicBricks',
-    'Housing.com', 'OLX', 'TagMango', 'LeadSquared', 'GoHighLevel',
+    'Google Calendar', 'Google Sheets', 'Shopify', 'WooCommerce', 'HubSpot', 'Mailchimp',
+    'Razorpay', 'Stripe', 'Google Analytics', 'Custom Webhook', 'Zapier', 'Make', 'Calendly',
+    'Pabbly Connect', 'n8n', 'IFTTT', 'Salesforce', 'Zoho CRM', 'Pipedrive', 'Bitrix24',
+    'PayPal', 'Paytm', 'PhonePe', 'Cashfree', 'Payments', 'PayU', 'Paystack', 'Mercado Pago',
+    'OpenAI / Custom GPT', 'IndiaMART', 'Justdial', 'TradeIndia', 'ExportersIndia',
+    'Facebook Lead Ads', 'Google Lead Forms', 'LinkedIn Lead Gen', 'X (Twitter) Ads',
+    '99acres', 'MagicBricks', 'Housing.com', 'OLX', 'TagMango', 'LeadSquared', 'GoHighLevel',
+    'WordPress Forms', 'Google Forms', 'Typeform', 'Jotform', 'Landing Pages', 'FlexiFunnels',
   ];
   const getTrustedLogoKey = (value: string) => value
     .trim()
