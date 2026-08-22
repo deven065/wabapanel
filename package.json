@@ -1,0 +1,14 @@
+{
+  "name": "wabapanel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix wabapanel-frontend run dev",
+    "dev:frontend": "npm --prefix wabapanel-frontend run dev",
+    "dev:backend": "npm --prefix wabapanel-express run dev",
+    "build": "npm --prefix wabapanel-frontend run build",
+    "start:frontend": "npm --prefix wabapanel-frontend run start",
+    "start:backend": "npm --prefix wabapanel-express run start",
+    "install:all": "npm --prefix wabapanel-frontend install && npm --prefix wabapanel-express install"
+  }
+}

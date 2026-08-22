@@ -5,7 +5,8 @@ import Link from 'next/link';
 import {
   MessageSquare, Send, Users, BarChart3, Bot, Zap, Phone,
   Check, ChevronDown, Menu, X, ArrowRight, Shield, Sparkles,
-  Play, MousePointerClick, Star, Quote
+  Play, MousePointerClick, Star, Quote, MonitorCheck, ShieldCheck,
+  Megaphone, MessageCircle, Code2, FileText, Clock3
 } from 'lucide-react';
 
 import { useSiteContent } from '@/lib/siteContent';
@@ -46,6 +47,15 @@ const TESTIMONIALS = [
   { name: 'Aman Verma', role: 'Agency Owner, GrowthLab Media', initials: 'AV', color: 'from-indigo-500 to-violet-600', text: 'We manage 14 client accounts from one dashboard. The AI chatbot answers 80% of queries before my team even opens the chat.' },
 ];
 
+const SERVICE_PACKAGES = [
+  { title: 'Full onboarding setup', category: 'Setup', price: '12.20', icon: MonitorCheck, description: 'Full setup including account creation, FB Business setup, and number migration if needed. Best for businesses starting from scratch.', features: ['New account + FB Business setup', 'Number migration supported', 'Dashboard walkthrough included'], process: ['Session via Google Meet or Anydesk', 'Max 30 mins allotted', 'Guided setup from start to finish'], requirement: 'Any paid plan', action: 'Buy now', featured: false },
+  { title: 'Facebook Business verification', category: 'Compliance', price: '12.20', icon: ShieldCheck, description: 'We handle the FB Business Manager verification process on your behalf and help prepare the required documents.', features: ['Document submission guided by our team', 'GST, MSME, or incorporation certificate accepted', 'Verification status tracked'], process: ['Document review with our team', 'Submission to Meta', 'Updates until a decision is received'], requirement: 'Any paid plan', action: 'Buy now', featured: false },
+  { title: 'Verified FB account + full setup', category: 'Premium', price: '121.95', icon: Star, description: 'We create a verified Facebook Business account from scratch and connect your WhatsApp Business setup for you.', features: ['FB Business account created by our team', 'Verification submitted and tracked', 'Complete WhatsApp setup included'], process: ['Account and document preparation', 'Meta verification submission', 'Final connection and walkthrough'], requirement: 'Any paid plan', action: 'Chat on WhatsApp', featured: true },
+  { title: 'Broadcast campaign setup', category: 'Ongoing', price: '24.40', icon: Megaphone, description: 'Launch your first broadcast campaign with templates, audience selection, and delivery tracking configured.', features: ['Template and audience setup', 'Campaign launch assistance', 'Delivery tracking walkthrough'], process: ['Campaign planning call', 'Build and test the campaign', 'Launch with tracking enabled'], requirement: 'Active WhatsApp number', action: 'Buy now', featured: false },
+  { title: 'Chatbot flow setup', category: 'Custom', price: '36.60', icon: MessageCircle, description: 'A practical WhatsApp chatbot flow designed around your FAQs, lead capture, and handoff requirements.', features: ['Conversation flow mapped with you', 'FAQ and lead capture setup', 'Human handoff configured'], process: ['Flow and content review', 'Build and test the experience', 'Go live with a walkthrough'], requirement: 'Active WhatsApp number', action: 'Buy now', featured: false },
+  { title: 'Custom integration', category: 'Custom', price: 'Contact us', icon: Code2, description: 'Connect your existing tools and workflows to WhatsApp with a tailored integration plan from our team.', features: ['Integration scope review', 'API and webhook guidance', 'Testing and launch support'], process: ['Technical discovery call', 'Integration plan and estimate', 'Build, test, and hand over'], requirement: 'Project scope required', action: 'Chat on WhatsApp', featured: false },
+];
+
 export default function HomeLanding({ initialTheme, initialContent }: { initialTheme?: SiteThemeData; initialContent?: any }) {
   const c = useSiteContent(initialContent);
   const h = c.home;
@@ -64,6 +74,7 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
   const cycleSuffix = cycle === 'quarterly' ? 'quarter' : cycle === 'yearly' ? 'year' : 'month';
   const [mobileMenu, setMobileMenu] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [selectedService, setSelectedService] = useState<typeof SERVICE_PACKAGES[number] | null>(null);
 
   useEffect(() => {
     fetch(`${API}/public/site-settings`).then(r => r.json()).then(d => { if (d.success) setSettings(d.data); }).catch(() => {});
@@ -133,24 +144,6 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
 
   return (
     <div className="min-h-screen bg-[#faf9fe] text-gray-900 overflow-x-hidden">
-      <style>{`
-        @keyframes lp-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .lp-marquee { animation: lp-marquee 28s linear infinite; }
-        .lp-marquee:hover { animation-play-state: paused; }
-        @keyframes lp-floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .lp-floaty { animation: lp-floaty 5s ease-in-out infinite; }
-        .lp-floaty-2 { animation: lp-floaty 6.5s ease-in-out 1s infinite; }
-        @keyframes lp-blob { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.1); } 66% { transform: translate(-30px,20px) scale(0.92); } }
-        .lp-blob { animation: lp-blob 14s ease-in-out infinite; }
-        .lp-blob-2 { animation: lp-blob 18s ease-in-out 2s infinite; }
-        @keyframes lp-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        .lp-hero-in { animation: lp-fade-up .8s ease-out both; }
-        .lp-hero-in-1 { animation: lp-fade-up .8s ease-out .1s both; }
-        .lp-hero-in-2 { animation: lp-fade-up .8s ease-out .2s both; }
-        .lp-hero-in-3 { animation: lp-fade-up .8s ease-out .3s both; }
-        .lp-hero-in-4 { animation: lp-fade-up .9s ease-out .45s both; }
-        .lp-grid-bg { background-image: linear-gradient(rgba(124,58,237,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,.05) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%); }
-      `}</style>
       {/* ─── Navbar (floating | solid | dark, per theme) ─── */}
       <nav className={L.nav === 'floating'
         ? 'fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl bg-white/80 backdrop-blur-2xl border border-gray-200/60 rounded-2xl shadow-lg shadow-purple-100/30 z-50 px-5 py-2.5'
@@ -611,7 +604,47 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
             <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">{h.pricing.title} <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">{h.pricing.titleHighlight}</span> {h.pricing.titleAfter}</h2>
             <p className="text-lg text-gray-500">{h.pricing.subtitle}</p>
 
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+              {SERVICE_PACKAGES.map((service, i) => {
+                const ServiceIcon = service.icon;
+                const chatUrl = settings?.whatsappWidget?.phone
+                  ? `https://wa.me/${String(settings.whatsappWidget.phone).replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I'm interested in ${service.title}.`)}`
+                  : '/contact';
+                return (
+                  <Reveal key={service.title} delay={(i % 3) * 90} className="h-full">
+                    <article className={`relative flex h-full min-h-[510px] flex-col rounded-2xl border bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${service.featured ? 'border-emerald-500 shadow-lg shadow-emerald-100/60' : 'border-gray-200 shadow-sm'}`}>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-600">
+                          <ServiceIcon className="h-6 w-6" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {service.featured && <span className="rounded-full bg-gray-950 px-3 py-1.5 text-xs font-bold text-white">Featured</span>}
+                          <span className="rounded-full border border-emerald-100 bg-emerald-50/70 px-3 py-1.5 text-xs font-semibold text-emerald-700">● {service.category}</span>
+                        </div>
+                      </div>
+                      <h3 className="mt-5 text-xl font-extrabold tracking-tight text-gray-950">{service.title}</h3>
+                      <div className="mt-3 flex items-center gap-2">
+                        <span className="text-3xl font-extrabold text-gray-950">{service.price === 'Contact us' ? service.price : `₹${service.price}`}</span>
+                        {service.price !== 'Contact us' && <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-500">one-time</span>}
+                      </div>
+                      <p className="mt-5 min-h-[72px] text-base leading-7 text-gray-500">{service.description}</p>
+                      <ul className="mt-5 space-y-3">
+                        {service.features.slice(0, 2).map(feature => <li key={feature} className="flex items-start gap-2 text-sm leading-5 text-gray-800"><Check className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-emerald-100 p-0.5 text-emerald-600" />{feature}</li>)}
+                      </ul>
+                      <button type="button" onClick={() => setSelectedService(service)} className="mt-3 self-start text-sm font-semibold text-gray-400 transition-colors hover:text-emerald-700">+{service.features.length - 2} more — view details</button>
+                      <div className="mt-5 flex items-center gap-2 text-sm text-gray-400"><FileText className="h-4 w-4 text-gray-400" /> Requires: <span className="font-medium text-gray-700">{service.requirement}</span></div>
+                      <div className="mt-auto flex items-center justify-between gap-3 border-t border-gray-100 pt-5">
+                        <button type="button" onClick={() => setSelectedService(service)} className="rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-600 transition-colors hover:border-emerald-200 hover:text-emerald-700"><ArrowRight className="mr-1 inline h-4 w-4" />Details</button>
+                        {service.action === 'Chat on WhatsApp' ? <a href={chatUrl} target={chatUrl.startsWith('http') ? '_blank' : undefined} rel={chatUrl.startsWith('http') ? 'noopener noreferrer' : undefined} className="rounded-xl bg-gray-950 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-emerald-600">{service.action} <ArrowRight className="ml-1 inline h-4 w-4" /></a> : <Link href="/auth/register" className="rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-emerald-600">{service.action} <ArrowRight className="ml-1 inline h-4 w-4" /></Link>}
+                      </div>
+                    </article>
+                  </Reveal>
+                );
+              })}
+            </div>
+
             {/* Toggle */}
+            <h3 className="mt-20 text-center text-2xl font-extrabold text-gray-950">Platform plans</h3>
             <div className="inline-flex items-center bg-white border border-gray-200 rounded-xl p-1.5 mt-6 shadow-sm">
               <button onClick={() => setCycle('monthly')} className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${cycle === 'monthly' ? 'bg-violet-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700'}`}>Monthly</button>
               <button onClick={() => setCycle('quarterly')} className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${cycle === 'quarterly' ? 'bg-violet-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700'}`}>Quarterly</button>
@@ -654,6 +687,31 @@ export default function HomeLanding({ initialTheme, initialContent }: { initialT
           )}
         </div>
       </section>
+
+      {selectedService && (() => {
+        const ServiceIcon = selectedService.icon;
+        const chatUrl = settings?.whatsappWidget?.phone
+          ? `https://wa.me/${String(settings.whatsappWidget.phone).replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi, I'm interested in ${selectedService.title}.`)}`
+          : '/contact';
+        return (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-gray-950/45 p-4 backdrop-blur-sm" onClick={() => setSelectedService(null)}>
+            <div role="dialog" aria-modal="true" aria-labelledby="service-dialog-title" className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={e => e.stopPropagation()}>
+              <div className="border-t-4 border-emerald-500 bg-emerald-50/70 px-6 py-6 sm:px-7">
+                <button type="button" aria-label="Close details" onClick={() => setSelectedService(null)} className="absolute right-6 top-5 rounded-lg border border-gray-200 bg-white p-2 text-gray-500 transition-colors hover:text-gray-950"><X className="h-5 w-5" /></button>
+                <div className="flex items-center gap-4 pr-12"><div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-emerald-600"><ServiceIcon className="h-6 w-6" /></div><div><span className="text-xs font-bold text-emerald-700">● {selectedService.category}</span><h2 id="service-dialog-title" className="mt-1 text-xl font-extrabold text-gray-950">{selectedService.title}</h2></div></div>
+              </div>
+              <div className="overflow-y-auto px-6 py-6 sm:px-7">
+                <div className="flex items-center gap-3"><span className="text-3xl font-extrabold text-gray-950">{selectedService.price === 'Contact us' ? selectedService.price : `₹${selectedService.price}`}</span>{selectedService.price !== 'Contact us' && <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs text-gray-500">one-time</span>}</div>
+                <p className="mt-5 text-base leading-7 text-gray-500">{selectedService.description}</p>
+                <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-5"><h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">What we do</h3><ul className="mt-4 space-y-3">{selectedService.features.map(feature => <li key={feature} className="flex items-start gap-2 text-sm text-gray-700"><Check className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-emerald-100 p-0.5 text-emerald-600" />{feature}</li>)}</ul></div>
+                <div className="mt-5 rounded-xl border border-gray-200 p-5"><h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400"><Clock3 className="h-4 w-4" /> How it works</h3><ul className="mt-4 space-y-3">{selectedService.process.map(step => <li key={step} className="flex items-start gap-2 text-sm text-gray-700"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />{step}</li>)}</ul></div>
+                <p className="mt-5 flex items-center gap-2 text-sm text-gray-500"><FileText className="h-4 w-4 text-gray-400" /> Requires: <span className="font-semibold text-gray-800">{selectedService.requirement}</span></p>
+              </div>
+              <div className="flex justify-end gap-3 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:px-7"><button type="button" onClick={() => setSelectedService(null)} className="rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-600">Close</button>{selectedService.action === 'Chat on WhatsApp' ? <a href={chatUrl} target={chatUrl.startsWith('http') ? '_blank' : undefined} rel={chatUrl.startsWith('http') ? 'noopener noreferrer' : undefined} className="rounded-xl bg-gray-950 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-600">{selectedService.action} <ArrowRight className="ml-1 inline h-4 w-4" /></a> : <Link href="/auth/register" className="rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-600">{selectedService.action} <ArrowRight className="ml-1 inline h-4 w-4" /></Link>}</div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* ─── FAQ ─── */}
       <section className="py-24 px-4">

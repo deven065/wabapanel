@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes lp-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.lp-marquee { animation: lp-marquee 28s linear infinite; }
+.lp-marquee:hover { animation-play-state: paused; }
+@keyframes lp-floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+.lp-floaty { animation: lp-floaty 5s ease-in-out infinite; }
+.lp-floaty-2 { animation: lp-floaty 6.5s ease-in-out 1s infinite; }
+@keyframes lp-blob { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(40px, -30px) scale(1.1); } 66% { transform: translate(-30px, 20px) scale(0.92); } }
+.lp-blob { animation: lp-blob 14s ease-in-out infinite; }
+.lp-blob-2 { animation: lp-blob 18s ease-in-out 2s infinite; }
+@keyframes lp-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.lp-hero-in { animation: lp-fade-up .8s ease-out both; }
+.lp-hero-in-1 { animation: lp-fade-up .8s ease-out .1s both; }
+.lp-hero-in-2 { animation: lp-fade-up .8s ease-out .2s both; }
+.lp-hero-in-3 { animation: lp-fade-up .8s ease-out .3s both; }
+.lp-hero-in-4 { animation: lp-fade-up .9s ease-out .45s both; }
+.lp-grid-bg { background-image: linear-gradient(rgba(124, 58, 237, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, .05) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%); }
+
 :root {
   --background: #f5f7fa;
   --foreground: #111827;
